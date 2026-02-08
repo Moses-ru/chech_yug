@@ -87,6 +87,11 @@
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
         }
 
+        .form-control:disabled {
+            background: #f0f0f0;
+            cursor: not-allowed;
+        }
+
         .btn-login {
             width: 100%;
             padding: 16px;
@@ -102,9 +107,19 @@
             box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
         }
 
-        .btn-login:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        .btn-login:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-login:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-login:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .error-message {
@@ -471,7 +486,7 @@
                 <input type="password" id="password" class="form-control" placeholder="Введите пароль" autocomplete="current-password">
             </div>
             
-            <button class="btn-login" onclick="login()">Войти</button>
+            <button class="btn-login" id="login-btn">Войти</button>
         </div>
         
         <div style="margin-top: 20px; color: #666; font-size: 13px;">
@@ -485,7 +500,7 @@
             <h1>Карта ресторана</h1>
             <div class="user-info">
                 <span id="user-name">Загрузка...</span>
-                <button class="logout-btn" onclick="logout()">Выйти</button>
+                <button class="logout-btn" id="logout-btn">Выйти</button>
             </div>
         </div>
 
@@ -556,7 +571,7 @@
     <!-- Модальное окно создания задачи -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span class="close" id="close-modal">&times;</span>
             <h2 id="modal-zone-title" style="margin-bottom: 20px; color: #333; font-size: 20px;">📍 Зона</h2>
             
             <div class="form-group">
@@ -599,7 +614,7 @@
                 </div>
             </div>
             
-            <button class="btn-primary" onclick="createTask()">✅ Создать задачу</button>
+            <button class="btn-primary" id="create-task-btn">✅ Создать задачу</button>
         </div>
     </div>
 
@@ -613,9 +628,59 @@
         let isModalOpen = false;
 
         // ============================================
+        // ИНИЦИАЛИЗАЦИЯ
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('📄 Страница загружена');
+            
+            // Инициализируем обработчики событий
+            initEventListeners();
+        });
+
+        // ============================================
+        // ИНИЦИАЛИЗАЦИЯ ОБРАБОТЧИКОВ СОБЫТИЙ
+        // ============================================
+        function initEventListeners() {
+            // Кнопка входа
+            document.getElementById('login-btn').addEventListener('click', login);
+            
+            // Кнопка выхода
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            
+            // Кнопка закрытия модального окна
+            document.getElementById('close-modal').addEventListener('click', closeModal);
+            
+            // Кнопка создания задачи
+            document.getElementById('create-task-btn').addEventListener('click', createTask);
+            
+            // Закрытие модального окна по клику вне
+            document.getElementById('modal').addEventListener('click', function(e) {
+                if (e.target === this && isModalOpen) {
+                    closeModal();
+                }
+            });
+            
+            // Закрытие модального окна по клавише Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isModalOpen) {
+                    closeModal();
+                }
+            });
+            
+            // Приоритеты
+            document.querySelectorAll('.priority-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentPriority = this.dataset.priority;
+                });
+            });
+        }
+
+        // ============================================
         // АВТОРИЗАЦИЯ
         // ============================================
-        async function login() {
+        function login() {
             const login = document.getElementById('login').value.trim();
             const password = document.getElementById('password').value.trim();
             
@@ -638,13 +703,17 @@
             
             if (account) {
                 currentUser = account;
+                console.log('✅ Пользователь вошел:', account);
+                
+                // Показываем основной интерфейс
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-interface').style.display = 'block';
                 document.getElementById('user-name').textContent = account.name;
                 
-                // Инициализируем остальные функции
-                initPriorityButtons();
+                // Инициализируем кликабельные зоны
                 initZoneButtons();
+                
+                // Загружаем задачи
                 loadTasks();
             } else {
                 showError('Неверный логин или пароль');
@@ -666,18 +735,10 @@
             document.getElementById('login-screen').style.display = 'block';
             document.getElementById('login').value = '';
             document.getElementById('password').value = '';
-        }
-
-        // ============================================
-        // ПРИОРИТЕТЫ
-        // ============================================
-        function initPriorityButtons() {
-            document.querySelectorAll('.priority-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentPriority = this.dataset.priority;
-                });
+            
+            // Удаляем обработчики кликов на зонах
+            document.querySelectorAll('.zone-button').forEach(btn => {
+                btn.removeEventListener('click', handleZoneClick);
             });
         }
 
@@ -685,21 +746,38 @@
         // КЛИКАБЕЛЬНЫЕ ЗОНЫ
         // ============================================
         function initZoneButtons() {
-            document.querySelectorAll('.zone-button').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    
-                    const zoneName = this.querySelector('.zone-label').textContent;
-                    currentZone = this.dataset.zone;
-                    console.log('📍 Выбрана зона:', zoneName, '(', currentZone, ')');
-                    
-                    if (currentUser.role === 'manager') {
-                        openTaskForm(zoneName);
-                    } else {
-                        alert('⚠️ У вас нет прав на создание задач');
-                    }
-                });
+            // Удаляем старые обработчики
+            document.querySelectorAll('.zone-button').forEach(btn => {
+                btn.removeEventListener('click', handleZoneClick);
             });
+            
+            // Добавляем новые обработчики
+            document.querySelectorAll('.zone-button').forEach(button => {
+                button.addEventListener('click', handleZoneClick);
+            });
+            
+            console.log('✅ Обработчики кликов на зонах инициализированы');
+        }
+
+        function handleZoneClick(e) {
+            e.stopPropagation();
+            
+            // Проверяем авторизацию
+            if (!currentUser) {
+                alert('⚠️ Пожалуйста, войдите в систему');
+                return;
+            }
+            
+            const zoneName = this.querySelector('.zone-label').textContent;
+            currentZone = this.dataset.zone;
+            console.log('📍 Выбрана зона:', zoneName, '(', currentZone, ')');
+            
+            // Только менеджеры могут создавать задачи
+            if (currentUser.role === 'manager') {
+                openTaskForm(zoneName);
+            } else {
+                alert('⚠️ У вас нет прав на создание задач');
+            }
         }
 
         // ============================================
@@ -740,6 +818,12 @@
         // МОДАЛЬНОЕ ОКНО
         // ============================================
         function openTaskForm(zoneName) {
+            // Проверяем, не открыто ли уже модальное окно
+            if (isModalOpen) {
+                return;
+            }
+            
+            console.log('✅ Открываем форму для зоны:', zoneName);
             document.getElementById('modal-zone-title').textContent = '📍 ' + zoneName;
             document.getElementById('modal').classList.add('show');
             isModalOpen = true;
@@ -749,18 +833,6 @@
             document.getElementById('modal').classList.remove('show');
             isModalOpen = false;
         }
-
-        window.addEventListener('click', function(event) {
-            if (event.target === document.getElementById('modal') && isModalOpen) {
-                closeModal();
-            }
-        });
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && isModalOpen) {
-                closeModal();
-            }
-        });
 
         // ============================================
         // СОЗДАНИЕ ЗАДАЧИ
