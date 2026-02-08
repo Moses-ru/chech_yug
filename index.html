@@ -23,121 +23,10 @@
             align-items: center;
         }
 
-        /* Экран входа */
-        .login-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 500px;
-            min-height: 100vh;
-            background: white;
-            padding: 20px;
-            text-align: center;
-            z-index: 100;
-        }
-
-        .login-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            color: #667eea;
-        }
-
-        .login-screen h2 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .login-form {
-            width: 100%;
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            text-align: left;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #e0e6ed;
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: inherit;
-            background: white;
-            transition: all 0.2s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-        }
-
-        .form-control:disabled {
-            background: #f0f0f0;
-            cursor: not-allowed;
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
-            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-login:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        }
-
-        .btn-login:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        .btn-login:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .error-message {
-            background: #ffebee;
-            border: 1px solid #f44336;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 15px;
-            color: #b71c1c;
-            text-align: left;
-            display: none;
-        }
-
-        /* Шапка  */
+        /* Шапка */
         .header {
             background: white;
-            padding: 15px 16px;
+            padding: 12px 16px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
@@ -152,29 +41,29 @@
         }
 
         .header h1 {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 600;
             color: #333;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .header h1::before {
             content: "🗺️";
-            font-size: 22px;
+            font-size: 20px;
         }
 
         .user-info {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .user-info::before {
@@ -185,11 +74,11 @@
             background: #f44336;
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 11px;
             cursor: pointer;
-            margin-left: 8px;
+            margin-left: 6px;
             transition: all 0.2s;
         }
 
@@ -197,17 +86,77 @@
             background: #d32f2f;
         }
 
-        /* Карта ресторана */
+        /* Блоки ответственных - КОМПАКТНЫЕ */
+        .responsibilities-section {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 10px;
+            padding: 8px; /* Уменьшили отступы */
+            margin: 6px 0; /* Уменьшили отступы */
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            font-size: 11px; /* Уменьшили шрифт */
+        }
+
+        .responsibilities-section h3 {
+            font-size: 14px; /* Уменьшили заголовок */
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .responsibility-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0; /* Уменьшили отступы */
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .responsibility-item:last-child {
+            border-bottom: none;
+        }
+
+        .responsibility-label {
+            font-weight: 500;
+            color: #555;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 130px; /* Уменьшили ширину метки */
+            font-size: 11px;
+        }
+
+        .employee-select {
+            width: 100px; /* Уменьшили ширину селекта */
+            padding: 4px 6px; /* Уменьшили отступы */
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 11px; /* Уменьшили шрифт */
+            background: white;
+            cursor: pointer;
+        }
+
+        .employee-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Карта ресторана - УМЕНЬШЕННЫЕ ОТСТУПЫ */
         .map-container {
             position: relative;
             width: 100%;
             max-width: 500px;
-            margin: 15px 0;
+            margin: 8px 0; /* Уменьшили отступы */
             background: white;
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            height: 75vh;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            height: 55vh; /* Уменьшили высоту карты */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -237,15 +186,15 @@
             pointer-events: auto;
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
             border: 2px solid #e0e6ed;
-            border-radius: 14px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 10;
-            padding: 12px 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 8px 12px; /* Уменьшили отступы */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
             backdrop-filter: blur(4px);
             transform: scale(0.95);
             opacity: 0.9;
@@ -256,13 +205,13 @@
             color: white;
             transform: scale(1);
             opacity: 1;
-            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
             border-color: #667eea;
         }
 
         .zone-button:active {
             transform: scale(0.97);
-            box-shadow: 0 3px 9px rgba(102, 126, 234, 0.25);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
         }
 
         .zone-label {
@@ -270,15 +219,14 @@
             font-weight: 600;
             text-align: center;
             text-shadow: 0 1px 2px rgba(255,255,255,0.7);
-            padding: 4px 8px;
-            font-size: 13px;
+            padding: 4px 6px; /* Уменьшили отступы */
+            font-size: 12px; /* Уменьшили шрифт */
             line-height: 1.3;
-            min-width: 60px;
+            min-width: 50px;
             transition: all 0.2s;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
+            white-space: normal; /* Разрешаем перенос слов */
+            word-wrap: break-word;
+            min-height: 26px; /* Достаточно для 2 строк */
         }
 
         .zone-button:hover .zone-label {
@@ -289,13 +237,13 @@
         /* Статус бар */
         .status-bar {
             background: white;
-            padding: 14px;
-            border-radius: 16px;
-            margin: 10px;
+            padding: 10px;
+            border-radius: 12px;
+            margin: 8px;
             display: flex;
             justify-content: space-around;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            font-size: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            font-size: 11px;
             max-width: 500px;
             overflow: hidden;
         }
@@ -304,33 +252,33 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .status-number {
             font-weight: 700;
-            font-size: 18px;
+            font-size: 16px;
             text-align: center;
         }
 
         .status-text {
-            font-size: 11px;
+            font-size: 10px;
             color: #666;
             text-align: center;
         }
 
-        /* Модальное окно - СКРЫТО ПО УМОЛЧАНИЮ И ПОКАЗЫВАЕТСЯ ТОЛЬКО ПОСЛЕ АВТОРИЗАЦИИ */
+        /* Модальное окно */
         .modal {
             display: none;
             position: fixed;
-            z-index: 2000; /* Высокий z-index для модального окна */
+            z-index: 2000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.6);
             backdrop-filter: blur(8px);
-            padding: 20px;
+            padding: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -345,13 +293,13 @@
 
         .modal-content {
             background: white;
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 90%;
+            border-radius: 18px;
+            padding: 20px;
+            max-width: 95%;
             max-height: 90vh;
             overflow-y: auto;
             animation: modalAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.28);
             transform: translateY(20px);
             transition: transform 0.3s ease;
         }
@@ -367,11 +315,11 @@
 
         .close {
             float: right;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: bold;
             cursor: pointer;
             color: #999;
-            padding: 6px 10px;
+            padding: 4px 8px;
             border-radius: 50%;
             transition: all 0.2s;
         }
@@ -381,27 +329,89 @@
             background: #f0f0f0;
         }
 
+        /* Поиск сотрудников */
+        .search-container {
+            margin-bottom: 12px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #e0e6ed;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #f8fafc;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        }
+
+        .employee-list {
+            max-height: 180px;
+            overflow-y: auto;
+            margin-top: 8px;
+            border: 1px solid #e0e6ed;
+            border-radius: 10px;
+            background: #f8fafc;
+            font-size: 13px;
+        }
+
+        .employee-item {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e0e6ed;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .employee-item:hover {
+            background: #e0e6ed;
+        }
+
+        .employee-item.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .employee-item .role-badge {
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 5px;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .employee-item.selected .role-badge {
+            background: rgba(255,255,255,0.3);
+        }
+
         .priority-group {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 8px;
         }
 
         .priority-btn {
-            padding: 14px;
+            padding: 12px;
             border: 2px solid #e0e6ed;
-            border-radius: 12px;
+            border-radius: 10px;
             background: white;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             transition: all 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             text-align: center;
         }
 
@@ -420,83 +430,74 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
         }
 
         .btn-primary {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 14px;
-            font-size: 17px;
+            border-radius: 12px;
+            font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-            margin-top: 10px;
-            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+            margin-top: 8px;
+            box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
         }
 
         .btn-primary:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 2px 7px rgba(102, 126, 234, 0.3);
         }
 
         /* Адаптивность */
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 18px;
+                font-size: 17px;
             }
 
             .status-bar {
-                padding: 12px 10px;
-                margin: 8px;
+                padding: 8px 6px;
+                margin: 6px;
             }
 
             .status-number {
-                font-size: 16px;
+                font-size: 15px;
             }
 
             .modal-content {
-                padding: 20px 18px;
+                padding: 16px 14px;
             }
 
             .priority-group {
                 grid-template-columns: 1fr;
             }
+
+            .employee-select {
+                width: 90px;
+                font-size: 10px;
+                padding: 3px 5px;
+            }
+
+            .zone-label {
+                font-size: 11px;
+                padding: 3px 5px;
+                min-height: 24px;
+            }
+
+            .responsibility-label {
+                font-size: 10px;
+                max-width: 110px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Экран входа -->
-    <div id="login-screen" class="login-screen">
-        <div class="login-icon">🔐</div>
-        <h2>Вход в систему</h2>
-        
-        <div class="login-form">
-            <div class="error-message" id="error-message"></div>
-            
-            <div class="form-group">
-                <label for="login">Логин:</label>
-                <input type="text" id="login" class="form-control" placeholder="Введите логин" autocomplete="username">
-            </div>
-            
-            <div class="form-group">
-                <label for="password">Пароль:</label>
-                <input type="password" id="password" class="form-control" placeholder="Введите пароль" autocomplete="current-password">
-            </div>
-            
-            <button class="btn-login" id="login-btn">Войти</button>
-        </div>
-        
-        <div style="margin-top: 20px; color: #666; font-size: 13px;">
-            ⚠️ Для входа используйте логин и пароль из таблицы "Аккаунты"
-        </div>
-    </div>
-
-    <!-- Основной интерфейс (скрыт до входа) -->
-    <div id="main-interface" style="display: none; width: 100%;">
+    <!-- Основной интерфейс -->
+    <div id="main-interface" style="width: 100%; display: none;">
         <div class="header">
             <h1>Карта ресторана</h1>
             <div class="user-info">
@@ -505,10 +506,75 @@
             </div>
         </div>
 
+        <!-- Дополнительная нагрузка (сверху) -->
+        <div class="responsibilities-section">
+            <h3>📋 Доп. нагрузка:</h3>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Стейшены:</span>
+                <select class="employee-select" data-role="steshens">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Раздача кухни:</span>
+                <select class="employee-select" data-role="kitchen_delivery">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Приборы:</span>
+                <select class="employee-select" data-role="utensils">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Чайные пары:</span>
+                <select class="employee-select" data-role="tea_sets">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Раздача:</span>
+                <select class="employee-select" data-role="trays">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Комплименты:</span>
+                <select class="employee-select" data-role="compliments">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Подносы:</span>
+                <select class="employee-select" data-role="trays_clean">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Детские стулья:</span>
+                <select class="employee-select" data-role="chairs">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Флажки:</span>
+                <select class="employee-select" data-role="flags">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Стафф:</span>
+                <select class="employee-select" data-role="staff_clean">
+                    <option value="">-</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Карта ресторана -->
         <div class="map-container">
             <div class="map-background">
                 <div class="zone-overlay" id="zone-overlay">
-                    <!-- Зоны -->
                     <div class="zone-button" data-zone="zal_saima" style="left: 11%; top: 59%; width: 25%; height: 8%;">
                         <div class="zone-label">Зал Сайма</div>
                     </div>
@@ -549,6 +615,65 @@
             </div>
         </div>
 
+        <!-- Ответственные на зонах (снизу) -->
+        <div class="responsibilities-section">
+            <h3>📍 Ответственные:</h3>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Зал Сайма:</span>
+                <select class="employee-select" data-zone="zal_saima_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Зал Сенная:</span>
+                <select class="employee-select" data-zone="zal_sennaya_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Зал Волна:</span>
+                <select class="employee-select" data-zone="zal_volna_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Зал Банкет:</span>
+                <select class="employee-select" data-zone="zal_banket_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Зал Летник:</span>
+                <select class="employee-select" data-zone="zal_letnik_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Бар:</span>
+                <select class="employee-select" data-zone="bar_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Кухня:</span>
+                <select class="employee-select" data-zone="kitchen_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Склад:</span>
+                <select class="employee-select" data-zone="storage_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+            <div class="responsibility-item">
+                <span class="responsibility-label">Стафф:</span>
+                <select class="employee-select" data-zone="staff_resp">
+                    <option value="">-</option>
+                </select>
+            </div>
+        </div>
+
         <div class="status-bar">
             <div class="status-item">
                 <div class="status-number" id="urgent-count">5</div>
@@ -569,48 +694,48 @@
         </div>
     </div>
 
-    <!-- Модальное окно создания задачи - СКРЫТО ПО УМОЛЧАНИЮ -->
+    <!-- Модальное окно создания задачи -->
     <div id="modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" id="close-modal">&times;</span>
-            <h2 id="modal-zone-title" style="margin-bottom: 20px; color: #333; font-size: 20px;">📍 Зона</h2>
+            <h2 id="modal-zone-title" style="margin-bottom: 16px; color: #333; font-size: 18px;">📍 Зона</h2>
             
             <div class="form-group">
-                <label>👤 Ответственный:</label>
-                <select id="recipient" class="form-control">
-                    <option value="">Выберите сотрудника...</option>
-                    <option value="111111111">Иван Петров (Бармен)</option>
-                    <option value="222222222">Мария Сидорова (Бармен)</option>
-                    <option value="333333333">Алексей Козлов (Повар)</option>
-                    <option value="444444444">Елена Иванова (Официант)</option>
-                </select>
+                <label style="font-size: 13px; margin-bottom: 6px; display: block;">👤 Ответственный:</label>
+                <div class="search-container">
+                    <input type="text" id="employee-search" class="search-input" placeholder="Поиск сотрудника...">
+                </div>
+                <div class="employee-list" id="employee-list">
+                    <!-- Сотрудники будут загружены динамически -->
+                </div>
+                <input type="hidden" id="recipient" value="">
             </div>
             
             <div class="form-group">
-                <label>📝 Задача:</label>
-                <textarea id="task-title" class="form-control" 
-                    placeholder="Например: Помыть пол, проверить инвентарь, убрать столы..."></textarea>
+                <label style="font-size: 13px; margin-bottom: 6px; display: block;">📝 Задача:</label>
+                <textarea id="task-title" class="form-control" style="width:100%;padding:10px;border:1px solid #e0e6ed;border-radius:10px;font-size:14px;" 
+                    placeholder="Например: Помыть пол, проверить инвентарь..."></textarea>
             </div>
             
             <div class="form-group">
-                <label>⏰ Срок (время):</label>
-                <input type="time" id="deadline" class="form-control" value="18:00">
+                <label style="font-size: 13px; margin-bottom: 6px; display: block;">⏰ Срок (время):</label>
+                <input type="time" id="deadline" class="form-control" style="width:100%;padding:10px;border:1px solid #e0e6ed;border-radius:10px;font-size:14px;" value="18:00">
             </div>
             
             <div class="form-group">
-                <label>📊 Приоритет:</label>
+                <label style="font-size: 13px; margin-bottom: 6px; display: block;">📊 Приоритет:</label>
                 <div class="priority-group">
                     <button type="button" class="priority-btn active" data-priority="high">
                         <span>🔴 Срочно</span>
-                        <span style="font-size: 11px;">Немедленно</span>
+                        <span style="font-size: 9px;">Немедленно</span>
                     </button>
                     <button type="button" class="priority-btn" data-priority="medium">
                         <span>🟡 Обычно</span>
-                        <span style="font-size: 11px;">К концу дня</span>
+                        <span style="font-size: 9px;">К концу дня</span>
                     </button>
                     <button type="button" class="priority-btn" data-priority="low">
                         <span>🟢 Низкий</span>
-                        <span style="font-size: 11px;">В удобное время</span>
+                        <span style="font-size: 9px;">В удобное время</span>
                     </button>
                 </div>
             </div>
@@ -628,6 +753,10 @@
         let currentPriority = 'high';
         let isModalOpen = false;
         let zoneButtonsInitialized = false;
+        let selectedEmployee = null;
+
+        // Список сотрудников (будет загружаться из бота)
+        let EMPLOYEES = [];
 
         // ============================================
         // ИНИЦИАЛИЗАЦИЯ
@@ -635,38 +764,56 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('📄 Страница загружена');
             
-            // Инициализируем обработчики событий
-            initEventListeners();
+            // Проверяем, открыт ли сайт через Telegram WebApp
+            if (window.Telegram && window.Telegram.WebApp) {
+                const WebApp = window.Telegram.WebApp;
+                WebApp.ready();
+                WebApp.expand();
+                
+                // Получаем параметры из URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const tgId = urlParams.get('tg_id');
+                const role = urlParams.get('role');
+                const name = decodeURIComponent(urlParams.get('name') || '');
+                
+                // Проверяем, что параметры есть
+                if (tgId && role && name) {
+                    currentUser = {
+                        tg_id: tgId,
+                        role: role,
+                        name: name,
+                        is_from_webapp: true
+                    };
+                    
+                    console.log('✅ Пользователь авторизован:', currentUser);
+                    document.getElementById('user-name').textContent = name;
+                    document.getElementById('main-interface').style.display = 'block';
+                    
+                    // Инициализируем остальное
+                    initEventListeners();
+                    initZoneButtons();
+                    loadTasks();
+                    loadEmployeesFromBot();
+                } else {
+                    showError('Ошибка: отсутствуют параметры авторизации');
+                }
+            } else {
+                showError('⚠️ Откройте карту через бота в Telegram');
+            }
         });
 
         // ============================================
         // ИНИЦИАЛИЗАЦИЯ ОБРАБОТЧИКОВ СОБЫТИЙ
         // ============================================
         function initEventListeners() {
-            // Кнопка входа
-            document.getElementById('login-btn').addEventListener('click', login);
-            
-            // Кнопка выхода
             document.getElementById('logout-btn').addEventListener('click', logout);
-            
-            // Кнопка закрытия модального окна
             document.getElementById('close-modal').addEventListener('click', closeModal);
-            
-            // Кнопка создания задачи
             document.getElementById('create-task-btn').addEventListener('click', createTask);
-            
-            // Закрытие модального окна по клику вне
             document.getElementById('modal').addEventListener('click', function(e) {
-                if (e.target === this && isModalOpen) {
-                    closeModal();
-                }
+                if (e.target === this && isModalOpen) closeModal();
             });
-            
-            // Закрытие модального окна по клавише Escape
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && isModalOpen) {
-                    closeModal();
-                }
+                if (e.key === 'Escape' && isModalOpen) closeModal();
             });
             
             // Приоритеты
@@ -677,88 +824,92 @@
                     currentPriority = this.dataset.priority;
                 });
             });
-        }
-
-        // ============================================
-        // АВТОРИЗАЦИЯ
-        // ============================================
-        function login() {
-            const login = document.getElementById('login').value.trim();
-            const password = document.getElementById('password').value.trim();
             
-            if (!login || !password) {
-                showError('Введите логин и пароль');
-                return;
-            }
+            // Поиск сотрудников
+            document.getElementById('employee-search').addEventListener('input', filterEmployees);
             
-            // Отправляем запрос на сервер для проверки логина/пароля
-            // Пока просто проверяем локально (в реальной версии будет запрос к боту)
-            const mockAccounts = [
-                {login: 'admin', password: 'admin123', name: 'Администратор', role: 'manager'},
-                {login: 'bartender1', password: 'bartender1', name: 'Иван Петров', role: 'bartender'},
-                {login: 'cook1', password: 'cook1', name: 'Алексей Козлов', role: 'cook'}
-            ];
-            
-            const account = mockAccounts.find(acc => 
-                acc.login === login && acc.password === password
-            );
-            
-            if (account) {
-                currentUser = account;
-                console.log('✅ Пользователь вошел:', account);
-                
-                // Показываем основной интерфейс
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('main-interface').style.display = 'block';
-                document.getElementById('user-name').textContent = account.name;
-                
-                // Инициализируем кликабельные зоны ТОЛЬКО ПОСЛЕ ВХОДА
-                initZoneButtons();
-                
-                // Загружаем задачи
-                loadTasks();
-            } else {
-                showError('Неверный логин или пароль');
-            }
-        }
-
-        function showError(message) {
-            const errorDiv = document.getElementById('error-message');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 3000);
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('main-interface').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'block';
-            document.getElementById('login').value = '';
-            document.getElementById('password').value = '';
-            
-            // Удаляем обработчики кликов на зонах
-            document.querySelectorAll('.zone-button').forEach(btn => {
-                btn.removeEventListener('click', handleZoneClick);
+            // Выбор сотрудника
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('employee-item')) {
+                    selectEmployee(e.target.dataset.employeeId);
+                }
             });
-            
-            // Закрываем модальное окно если открыто
-            closeModal();
-            
-            zoneButtonsInitialized = false;
         }
 
         // ============================================
-        // КЛИКАБЕЛЬНЫЕ ЗОНЫ - ИНИЦИАЛИЗИРУЮТСЯ ТОЛЬКО ПОСЛЕ ВХОДА
+        // ЗАГРУЗКА СОТРУДНИКОВ ИЗ БОТА
+        // ============================================
+        function loadEmployeesFromBot() {
+            // Отправляем запрос боту на получение списка сотрудников
+            if (window.Telegram?.WebApp) {
+                window.Telegram.WebApp.sendData(JSON.stringify({
+                    action: 'get_employees',
+                    sender_tg_id: currentUser.tg_id
+                }));
+                
+                // В реальной версии бот отправит ответ через WebApp, 
+                // но пока используем заглушку для тестирования
+                setTimeout(() => {
+                    EMPLOYEES = [
+                        {id: '111111111', name: 'Иван Петров', role: 'bartender', role_name: 'Бармен'},
+                        {id: '222222222', name: 'Мария Сидорова', role: 'bartender', role_name: 'Бармен'},
+                        {id: '333333333', name: 'Алексей Козлов', role: 'cook', role_name: 'Повар'},
+                        {id: '444444444', name: 'Елена Иванова', role: 'waiter', role_name: 'Официант'},
+                        {id: '555555555', name: 'Дмитрий Смирнов', role: 'waiter', role_name: 'Официант'},
+                        {id: '666666666', name: 'Анна Козлова', role: 'bar_manager', role_name: 'Бар-менеджер'},
+                        {id: '777777777', name: 'Сергей Петров', role: 'head_chef', role_name: 'Шеф-повар'},
+                        {id: '888888888', name: 'Ольга Новикова', role: 'floor_manager', role_name: 'Менеджер зала'},
+                        {id: '999999999', name: 'Ирина Козлова', role: 'waiter', role_name: 'Официант'},
+                        {id: '101010101', name: 'Павел Соколов', role: 'cook', role_name: 'Повар'}
+                    ];
+                    loadEmployeesToSelects();
+                    filterEmployees();
+                }, 500);
+            }
+        }
+
+        // ============================================
+        // ЗАГРУЗКА СОТРУДНИКОВ В СЕЛЕКТЫ
+        // ============================================
+        function loadEmployeesToSelects() {
+            document.querySelectorAll('.employee-select').forEach(select => {
+                while (select.options.length > 1) {
+                    select.remove(1);
+                }
+                
+                EMPLOYEES.forEach(emp => {
+                    if (['manager', 'bar_manager', 'floor_manager', 'head_chef'].includes(emp.role)) {
+                        return;
+                    }
+                    
+                    const option = document.createElement('option');
+                    option.value = emp.id;
+                    option.textContent = emp.name;
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        // ============================================
+        // ВЫХОД
+        // ============================================
+        function logout() {
+            if (window.Telegram?.WebApp) {
+                window.Telegram.WebApp.close();
+            } else {
+                document.getElementById('main-interface').style.display = 'none';
+                showError('Вы вышли из системы. Откройте карту через бота.');
+            }
+        }
+
+        // ============================================
+        // КЛИКАБЕЛЬНЫЕ ЗОНЫ
         // ============================================
         function initZoneButtons() {
-            // Удаляем старые обработчики
             document.querySelectorAll('.zone-button').forEach(btn => {
                 btn.removeEventListener('click', handleZoneClick);
             });
             
-            // Добавляем новые обработчики
             document.querySelectorAll('.zone-button').forEach(button => {
                 button.addEventListener('click', handleZoneClick);
             });
@@ -770,9 +921,14 @@
         function handleZoneClick(e) {
             e.stopPropagation();
             
-            // Проверяем авторизацию - ОБЯЗАТЕЛЬНАЯ ПРОВЕРКА
             if (!currentUser) {
-                alert('⚠️ Пожалуйста, войдите в систему');
+                alert('⚠️ Пожалуйста, откройте карту через бота');
+                return;
+            }
+            
+            // Только менеджеры могут создавать задачи
+            if (!currentUser.role.includes('manager')) {
+                alert('⚠️ У вас нет прав на создание задач');
                 return;
             }
             
@@ -780,12 +936,51 @@
             currentZone = this.dataset.zone;
             console.log('📍 Выбрана зона:', zoneName, '(', currentZone, ')');
             
-            // Только менеджеры могут создавать задачи
-            if (currentUser.role === 'manager') {
-                openTaskForm(zoneName);
-            } else {
-                alert('⚠️ У вас нет прав на создание задач');
+            openTaskForm(zoneName);
+        }
+
+        // ============================================
+        // ПОИСК И ВЫБОР СОТРУДНИКОВ
+        // ============================================
+        function filterEmployees() {
+            const searchTerm = document.getElementById('employee-search').value.toLowerCase();
+            const employeeList = document.getElementById('employee-list');
+            employeeList.innerHTML = '';
+            
+            const filtered = EMPLOYEES.filter(emp => 
+                emp.name.toLowerCase().includes(searchTerm) ||
+                emp.role_name.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filtered.length === 0) {
+                employeeList.innerHTML = '<div style="padding: 10px; text-align: center; color: #999; font-size: 12px;">Сотрудники не найдены</div>';
+                return;
             }
+            
+            filtered.forEach(emp => {
+                const div = document.createElement('div');
+                div.className = 'employee-item' + (selectedEmployee === emp.id ? ' selected' : '');
+                div.dataset.employeeId = emp.id;
+                div.innerHTML = `
+                    <span>${emp.name}</span>
+                    <span class="role-badge">${emp.role_name}</span>
+                `;
+                employeeList.appendChild(div);
+            });
+        }
+
+        function selectEmployee(employeeId) {
+            selectedEmployee = employeeId;
+            document.getElementById('recipient').value = employeeId;
+            
+            document.querySelectorAll('.employee-item').forEach(item => {
+                item.classList.remove('selected');
+                if (item.dataset.employeeId === employeeId) {
+                    item.classList.add('selected');
+                }
+            });
+            
+            console.log('✅ Выбран сотрудник:', employeeId);
         }
 
         // ============================================
@@ -793,28 +988,11 @@
         // ============================================
         function loadTasks() {
             // Заглушка для теста
-            const tasks = {
-                'zal_saima': {urgent: 1, normal: 2, completed: 0},
-                'zal_sennaya': {urgent: 0, normal: 1, completed: 0},
-                'zal_volna': {urgent: 0, normal: 0, completed: 0},
-                'zal_banket': {urgent: 1, normal: 1, completed: 0},
-                'zal_letnik': {urgent: 0, normal: 0, completed: 0},
-                'bar': {urgent: 1, normal: 3, completed: 2},
-                'kitchen': {urgent: 2, normal: 5, completed: 3},
-                'storage': {urgent: 0, normal: 0, completed: 2}
-            };
-            
             updateTasksUI();
         }
 
         function updateTasksUI() {
-            let totalUrgent = 0;
-            let totalNormal = 0;
-            let totalCompleted = 0;
-            
-            totalUrgent = 5;
-            totalNormal = 12;
-            totalCompleted = 7;
+            let totalUrgent = 5, totalNormal = 12, totalCompleted = 7;
             
             document.getElementById('urgent-count').textContent = totalUrgent;
             document.getElementById('normal-count').textContent = totalNormal;
@@ -823,39 +1001,29 @@
         }
 
         // ============================================
-        // МОДАЛЬНОЕ ОКНО - ОТКРЫВАЕТСЯ ТОЛЬКО ПОСЛЕ АВТОРИЗАЦИИ И ПРИ КЛИКЕ НА ЗОНУ
+        // МОДАЛЬНОЕ ОКНО
         // ============================================
         function openTaskForm(zoneName) {
-            // ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА АВТОРИЗАЦИИ
-            if (!currentUser) {
-                console.error('❌ Попытка открыть форму без авторизации');
-                return;
-            }
-            
-            // Проверяем, не открыто ли уже модальное окно
-            if (isModalOpen) {
-                return;
-            }
+            if (!currentUser) return;
+            if (isModalOpen) return;
             
             console.log('✅ Открываем форму для зоны:', zoneName);
             
-            // Устанавливаем заголовок
             document.getElementById('modal-zone-title').textContent = '📍 ' + zoneName;
+            document.getElementById('employee-search').value = '';
+            document.getElementById('recipient').value = '';
+            selectedEmployee = null;
             
-            // Показываем модальное окно
+            filterEmployees();
+            
             document.getElementById('modal').style.display = 'flex';
-            setTimeout(() => {
-                document.getElementById('modal').classList.add('show');
-            }, 10);
-            
+            setTimeout(() => document.getElementById('modal').classList.add('show'), 10);
             isModalOpen = true;
         }
 
         function closeModal() {
             document.getElementById('modal').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('modal').style.display = 'none';
-            }, 300);
+            setTimeout(() => document.getElementById('modal').style.display = 'none', 300);
             isModalOpen = false;
         }
 
@@ -885,14 +1053,39 @@
                 title: title,
                 deadline: deadline,
                 priority: currentPriority,
+                sender_tg_id: currentUser.tg_id,
                 sender_name: currentUser.name,
                 timestamp: new Date().toISOString()
             };
             
             console.log('📤 Отправляем задачу:', taskData);
             
-            alert('✅ Задача создана! (В реальной версии данные отправятся в бот)');
-            closeModal();
+            if (window.Telegram?.WebApp) {
+                window.Telegram.WebApp.sendData(JSON.stringify(taskData));
+                setTimeout(() => {
+                    alert('✅ Задача создана!');
+                    window.Telegram.WebApp.close();
+                }, 100);
+            } else {
+                alert('✅ Задача создана! (Тестовый режим)');
+                closeModal();
+            }
+        }
+
+        // ============================================
+        // ПОКАЗ ОШИБКИ
+        // ============================================
+        function showError(message) {
+            document.body.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; text-align: center;">
+                    <div style="font-size: 60px; margin-bottom: 20px;">⚠️</div>
+                    <h2 style="font-size: 22px; color: #333; margin-bottom: 15px;">Ошибка</h2>
+                    <p style="font-size: 16px; color: #666; margin-bottom: 25px; line-height: 1.5;">${message}</p>
+                    <button onclick="location.reload()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 30px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+                        Обновить страницу
+                    </button>
+                </div>
+            `;
         }
     </script>
 </body>
