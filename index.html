@@ -35,6 +35,7 @@
             background: white;
             padding: 20px;
             text-align: center;
+            z-index: 100;
         }
 
         .login-icon {
@@ -318,11 +319,11 @@
             text-align: center;
         }
 
-        /* Модальное окно */
+        /* Модальное окно - СКРЫТО ПО УМОЛЧАНИЮ И ПОКАЗЫВАЕТСЯ ТОЛЬКО ПОСЛЕ АВТОРИЗАЦИИ */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
+            z-index: 2000; /* Высокий z-index для модального окна */
             left: 0;
             top: 0;
             width: 100%;
@@ -568,8 +569,8 @@
         </div>
     </div>
 
-    <!-- Модальное окно создания задачи -->
-    <div id="modal" class="modal">
+    <!-- Модальное окно создания задачи - СКРЫТО ПО УМОЛЧАНИЮ -->
+    <div id="modal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" id="close-modal">&times;</span>
             <h2 id="modal-zone-title" style="margin-bottom: 20px; color: #333; font-size: 20px;">📍 Зона</h2>
@@ -626,6 +627,7 @@
         let currentZone = null;
         let currentPriority = 'high';
         let isModalOpen = false;
+        let zoneButtonsInitialized = false;
 
         // ============================================
         // ИНИЦИАЛИЗАЦИЯ
@@ -710,7 +712,7 @@
                 document.getElementById('main-interface').style.display = 'block';
                 document.getElementById('user-name').textContent = account.name;
                 
-                // Инициализируем кликабельные зоны
+                // Инициализируем кликабельные зоны ТОЛЬКО ПОСЛЕ ВХОДА
                 initZoneButtons();
                 
                 // Загружаем задачи
@@ -740,10 +742,15 @@
             document.querySelectorAll('.zone-button').forEach(btn => {
                 btn.removeEventListener('click', handleZoneClick);
             });
+            
+            // Закрываем модальное окно если открыто
+            closeModal();
+            
+            zoneButtonsInitialized = false;
         }
 
         // ============================================
-        // КЛИКАБЕЛЬНЫЕ ЗОНЫ
+        // КЛИКАБЕЛЬНЫЕ ЗОНЫ - ИНИЦИАЛИЗИРУЮТСЯ ТОЛЬКО ПОСЛЕ ВХОДА
         // ============================================
         function initZoneButtons() {
             // Удаляем старые обработчики
@@ -756,13 +763,14 @@
                 button.addEventListener('click', handleZoneClick);
             });
             
+            zoneButtonsInitialized = true;
             console.log('✅ Обработчики кликов на зонах инициализированы');
         }
 
         function handleZoneClick(e) {
             e.stopPropagation();
             
-            // Проверяем авторизацию
+            // Проверяем авторизацию - ОБЯЗАТЕЛЬНАЯ ПРОВЕРКА
             if (!currentUser) {
                 alert('⚠️ Пожалуйста, войдите в систему');
                 return;
@@ -815,22 +823,39 @@
         }
 
         // ============================================
-        // МОДАЛЬНОЕ ОКНО
+        // МОДАЛЬНОЕ ОКНО - ОТКРЫВАЕТСЯ ТОЛЬКО ПОСЛЕ АВТОРИЗАЦИИ И ПРИ КЛИКЕ НА ЗОНУ
         // ============================================
         function openTaskForm(zoneName) {
+            // ДОПОЛНИТЕЛЬНАЯ ПРОВЕРКА АВТОРИЗАЦИИ
+            if (!currentUser) {
+                console.error('❌ Попытка открыть форму без авторизации');
+                return;
+            }
+            
             // Проверяем, не открыто ли уже модальное окно
             if (isModalOpen) {
                 return;
             }
             
             console.log('✅ Открываем форму для зоны:', zoneName);
+            
+            // Устанавливаем заголовок
             document.getElementById('modal-zone-title').textContent = '📍 ' + zoneName;
-            document.getElementById('modal').classList.add('show');
+            
+            // Показываем модальное окно
+            document.getElementById('modal').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('modal').classList.add('show');
+            }, 10);
+            
             isModalOpen = true;
         }
 
         function closeModal() {
             document.getElementById('modal').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('modal').style.display = 'none';
+            }, 300);
             isModalOpen = false;
         }
 
