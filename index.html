@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Карта ресторана</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Шапка */
+        .header {
+            background: white;
+            padding: 15px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 16px 16px 0 0;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1::before {
+            content: "🗺️";
+            font-size: 22px;
+        }
+
+        .user-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .user-info::before {
+            content: "👤";
+        }
+
+        /* Экран аутентификации */
+        .auth-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            background: white;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-screen h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .auth-screen p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .auth-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Карта ресторана */
+        .map-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 15px 0;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Убрали фоновую карту - заменили на чистый фон с зонами */
+        .map-background {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e6ecf5 100%);
+            position: relative;
+        }
+
+        /* Кликабельные зоны на карте */
+        .zone-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zone-button {
+            position: absolute;
+            pointer-events: auto;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #e0e6ed;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            padding: 12px 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            backdrop-filter: blur(4px);
+            transform: scale(0.95);
+            opacity: 0.9;
+        }
+
+        .zone-button:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1);
+            opacity: 1;
+            box-shadow: 0 6px 18px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .zone-button:active {
+            transform: scale(0.97);
+            box-shadow: 0 3px 9px rgba(102, 126, 234, 0.25);
+        }
+
+        .zone-label {
+            color: #333;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.7);
+            padding: 4px 8px;
+            font-size: 13px;
+            line-height: 1.3;
+            min-width: 60px;
+            transition: all 0.2s;
+            /* Текст не выходит за границы */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .zone-button:hover .zone-label {
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            color: white;
+        }
+
+        /* Статус бар */
+        .status-bar {
+            background: white;
+            padding: 14px;
+            border-radius: 16px;
+            margin: 10px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            font-size: 12px;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-number {
+            font-weight: 700;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .status-text {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close {
+            float: right;
+            font-size: 26px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            padding: 6px 10px;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .close:hover {
+            color: #333;
+            background: #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            background: #f8fafc;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .priority-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .priority-btn {
+            padding: 14px;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .priority-btn span {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .priority-btn:hover {
+            background: #f0f4f8;
+        }
+
+        .priority-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .status-bar {
+                padding: 12px 10px;
+                margin: 8px;
+            }
+
+            .status-number {
+                font-size: 16px;
+            }
+
+            .modal-content {
+                padding: 20px 18px;
+            }
+
+            .priority-group {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Экран аутентификации -->
+    <div id="auth-screen" class="auth-screen">
+        <h2>👋 Добро пожаловать!</h2>
+        <p>Пожалуйста, войдите через бота в Телеграм,<br>или откройте этот сайт через Telegram WebApp</p>
+        <button class="auth-btn" onclick="initTelegramAuth()">
+            <span>📱</span>
+            <span>Открыть в Телеграм</span>
+        </button>
+    </div>
+
+    <!-- Основной интерфейс (скрыт до аутентификации) -->
+    <div id="main-interface" style="display: none; width: 100%;">
+        <div class="header">
+            <h1>Карта ресторана</h1>
+            <div class="user-info">
+                <span id="user-name">Загрузка...</span>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div class="map-background">
+                <div class="zone-overlay" id="zone-overlay">
+                    <!-- Зоны -->
+                    <div class="zone-button" data-zone="zal_saima" style="left: 11%; top: 59%; width: 25%; height: 8%;">
+                        <div class="zone-label">Зал Сайма</div>
+                    </div>
+                    <div class="zone-button" data-zone="zal_sennaya" style="left: 37%; top: 59%; width: 25%; height: 8%;">
+                        <div class="zone-label">Зал Сенная</div>
+                    </div>
+                    <div class="zone-button" data-zone="zal_volna" style="left: 64%; top: 49%; width: 14%; height: 18%;">
+                        <div class="zone-label">Зал Волна</div>
+                    </div>
+                    <div class="zone-button" data-zone="zal_banket" style="left: 80%; top: 33.4%; width: 14%; height: 20%;">
+                        <div class="zone-label">Зал Банкет</div>
+                    </div>
+                    <div class="zone-button" data-zone="zal_letnik" style="left: 28%; top: 33.4%; width: 34.2%; height: 11.5%;">
+                        <div class="zone-label">Зал Летник</div>
+                    </div>
+                    <div class="zone-button" data-zone="bar" style="left: 64%; top: 45%; width: 14%; height: 3%;">
+                        <div class="zone-label">Бар</div>
+                    </div>
+                    <div class="zone-button" data-zone="kitchen" style="left: 28%; top: 54.5%; width: 34%; height: 4%;">
+                        <div class="zone-label">Кухня</div>
+                    </div>
+                    <div class="zone-button" data-zone="storage" style="left: 37%; top: 46%; width: 25%; height: 8%;">
+                        <div class="zone-label">Склад</div>
+                    </div>
+                    <div class="zone-button" data-zone="staff" style="left: 11%; top: 46%; width: 25%; height: 8%;">
+                        <div class="zone-label">Стафф</div>
+                    </div>
+                    <div class="zone-button" data-zone="cheese_room" style="left: 64%; top: 41%; width: 14%; height: 3%;">
+                        <div class="zone-label">Сыроварня</div>
+                    </div>
+                    <div class="zone-button" data-zone="fridge" style="left: 37%; top: 67.6%; width: 25%; height: 8%;">
+                        <div class="zone-label">Холодильник</div>
+                    </div>
+                    <div class="zone-button" data-zone="freezer" style="left: 11%; top: 67.6%; width: 25%; height: 8%;">
+                        <div class="zone-label">Морозильник</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-number" id="urgent-count">5</div>
+                <div class="status-text">срочные</div>
+            </div>
+            <div class="status-item">
+                <div class="status-number" id="normal-count">12</div>
+                <div class="status-text">обычные</div>
+            </div>
+            <div class="status-item">
+                <div class="status-number" id="completed-count">7</div>
+                <div class="status-text">выполнено</div>
+            </div>
+            <div class="status-item">
+                <div class="status-number" id="total-count">24</div>
+                <div class="status-text">всего</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно создания задачи -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-zone-title" style="margin-bottom: 20px; color: #333; font-size: 20px;">📍 Зона</h2>
+            
+            <div class="form-group">
+                <label>👤 Ответственный:</label>
+                <select id="recipient" class="form-control">
+                    <option value="">Выберите сотрудника...</option>
+                    <option value="111111111">Иван Петров (Бармен)</option>
+                    <option value="222222222">Мария Сидорова (Бармен)</option>
+                    <option value="333333333">Алексей Козлов (Повар)</option>
+                    <option value="444444444">Елена Иванова (Официант)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>📝 Задача:</label>
+                <textarea id="task-title" class="form-control" 
+                    placeholder="Например: Помыть пол, проверить инвентарь, убрать столы..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>⏰ Срок (время):</label>
+                <input type="time" id="deadline" class="form-control" value="18:00">
+            </div>
+            
+            <div class="form-group">
+                <label>📊 Приоритет:</label>
+                <div class="priority-group">
+                    <button type="button" class="priority-btn active" data-priority="high">
+                        <span>🔴 Срочно</span>
+                        <span style="font-size: 11px;">Немедленно</span>
+                    </button>
+                    <button type="button" class="priority-btn" data-priority="medium">
+                        <span>🟡 Обычно</span>
+                        <span style="font-size: 11px;">К концу дня</span>
+                    </button>
+                    <button type="button" class="priority-btn" data-priority="low">
+                        <span>🟢 Низкий</span>
+                        <span style="font-size: 11px;">В удобное время</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button class="btn-primary" onclick="createTask()">✅ Создать задачу</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+        // ============================================
+        let telegramData = null;
+        let currentZone = null;
+        let currentPriority = 'high';
+        let isModalOpen = false;
+        let isAuthenticated = false;
+
+        // ============================================
+        // ИНИЦИАЛИЗАЦИЯ
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            initTelegramWebApp();
+            initPriorityButtons();
+            initZoneButtons();
+            loadTasks();
+        });
+
+        // ============================================
+        // TELEGRAM WEBAPP - АУТЕНТИФИКАЦИЯ
+        // ============================================
+        function initTelegramWebApp() {
+            if (window.Telegram && window.Telegram.WebApp) {
+                const WebApp = window.Telegram.WebApp;
+                WebApp.ready();
+                WebApp.expand();
+                
+                // Получаем данные пользователя
+                telegramData = {
+                    user_id: WebApp.initDataUnsafe?.user?.id,
+                    username: WebApp.initDataUnsafe?.user?.username || '',
+                    first_name: WebApp.initDataUnsafe?.user?.first_name || 'Добро',
+                    last_name: WebApp.initDataUnsafe?.user?.last_name || 'пожаловать',
+                    role: 'manager', // Позже получим из бота
+                    is_from_webapp: true
+                };
+                
+                console.log('✅ Telegram WebApp инициализирован:', telegramData);
+                
+                // Показываем основной интерфейс
+                showMainInterface();
+            } else {
+                // Режим тестирования - показываем кнопку "Войти"
+                console.log('⚠️ Telegram WebApp не обнаружен. Режим тестирования.');
+            }
+        }
+
+        // Кнопка "Открыть в Телеграм"
+        function initTelegramAuth() {
+            alert('ℹ️ Чтобы использовать приложение, откройте его через бота в Telegram.\n\nНажмите кнопку "Карта ресторана" в боте.');
+        }
+
+        // Показать основной интерфейс
+        function showMainInterface() {
+            if (telegramData) {
+                document.getElementById('auth-screen').style.display = 'none';
+                document.getElementById('main-interface').style.display = 'block';
+                document.getElementById('user-name').textContent = telegramData.first_name;
+                isAuthenticated = true;
+            }
+        }
+
+        // ============================================
+        // ПРИОРИТЕТЫ
+        // ============================================
+        function initPriorityButtons() {
+            document.querySelectorAll('.priority-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentPriority = this.dataset.priority;
+                });
+            });
+        }
+
+        // ============================================
+        // КЛИКАБЕЛЬНЫЕ ЗОНЫ - ИСПРАВЛЕНО!
+        // ============================================
+        function initZoneButtons() {
+            document.querySelectorAll('.zone-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation(); // Предотвращаем всплытие события
+                    
+                    const zoneName = this.querySelector('.zone-label').textContent;
+                    currentZone = this.dataset.zone; // Сохраняем код зоны
+                    console.log('📍 Выбрана зона:', zoneName, '(', currentZone, ')');
+                    
+                    openTaskForm(zoneName);
+                });
+            });
+        }
+
+        // ============================================
+        // ЗАГРУЗКА ЗАДАЧ
+        // ============================================
+        function loadTasks() {
+            // Заглушка для теста
+            const tasks = {
+                'zal_saima': {urgent: 1, normal: 2, completed: 0},
+                'zal_sennaya': {urgent: 0, normal: 1, completed: 0},
+                'zal_volna': {urgent: 0, normal: 0, completed: 0},
+                'zal_banket': {urgent: 1, normal: 1, completed: 0},
+                'zal_letnik': {urgent: 0, normal: 0, completed: 0},
+                'bar': {urgent: 1, normal: 3, completed: 2},
+                'kitchen': {urgent: 2, normal: 5, completed: 3},
+                'storage': {urgent: 0, normal: 0, completed: 2}
+            };
+            
+            updateTasksUI();
+        }
+
+        function updateTasksUI() {
+            let totalUrgent = 0;
+            let totalNormal = 0;
+            let totalCompleted = 0;
+            
+            // Обновляем статусы
+            totalUrgent = 5;
+            totalNormal = 12;
+            totalCompleted = 7;
+            
+            document.getElementById('urgent-count').textContent = totalUrgent;
+            document.getElementById('normal-count').textContent = totalNormal;
+            document.getElementById('completed-count').textContent = totalCompleted;
+            document.getElementById('total-count').textContent = totalUrgent + totalNormal + totalCompleted;
+        }
+
+        // ============================================
+        // МОДАЛЬНОЕ ОКНО
+        // ============================================
+        function openTaskForm(zoneName) {
+            if (!isAuthenticated) {
+                alert('⚠️ Пожалуйста, войдите через бота в Телеграм');
+                return;
+            }
+            
+            if (telegramData.role !== 'manager') {
+                alert('⚠️ У вас нет прав на создание задач');
+                return;
+            }
+            
+            console.log('✅ Открываем форму для зоны:', zoneName);
+            document.getElementById('modal-zone-title').textContent = '📍 ' + zoneName;
+            document.getElementById('modal').classList.add('show');
+            isModalOpen = true;
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+            isModalOpen = false;
+        }
+
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('modal') && isModalOpen) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && isModalOpen) {
+                closeModal();
+            }
+        });
+
+        // ============================================
+        // СОЗДАНИЕ ЗАДАЧИ
+        // ============================================
+        function createTask() {
+            const recipient = document.getElementById('recipient').value;
+            const title = document.getElementById('task-title').value.trim();
+            const deadline = document.getElementById('deadline').value;
+            
+            if (!recipient) {
+                alert('⚠️ Выберите ответственного!');
+                return;
+            }
+            
+            if (!title) {
+                alert('⚠️ Напишите задачу!');
+                return;
+            }
+            
+            const taskData = {
+                action: 'create_task',
+                zone: currentZone,
+                zone_name: document.getElementById('modal-zone-title').textContent.replace('📍 ', ''),
+                recipient_id: recipient,
+                title: title,
+                deadline: deadline,
+                priority: currentPriority,
+                sender_id: telegramData?.user_id,
+                sender_name: telegramData?.first_name,
+                timestamp: new Date().toISOString()
+            };
+            
+            console.log('📤 Отправляем задачу:', taskData);
+            
+            if (window.Telegram?.WebApp) {
+                window.Telegram.WebApp.sendData(JSON.stringify(taskData));
+                setTimeout(() => {
+                    alert('✅ Задача создана!');
+                    window.Telegram.WebApp.close();
+                }, 100);
+            } else {
+                alert('✅ Задача создана! (Тестовый режим)\nДанные:\n' + JSON.stringify(taskData, null, 2));
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
