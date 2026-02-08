@@ -23,8 +23,8 @@
             align-items: center;
         }
 
-        /* Экран аутентификации */
-        .auth-screen {
+        /* Экран входа */
+        .login-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -35,63 +35,87 @@
             background: white;
             padding: 20px;
             text-align: center;
-            animation: fadeIn 0.5s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .auth-screen h2 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .auth-screen p {
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            font-size: 15px;
-        }
-
-        .auth-icon {
+        .login-icon {
             font-size: 80px;
             margin-bottom: 20px;
             color: #667eea;
         }
 
-        .debug-info {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: left;
-            font-size: 12px;
-            color: #856404;
-        }
-
-        .instructions {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: left;
-            border: 1px solid #e0e6ed;
-        }
-
-        .instructions ol {
-            text-align: left;
-            margin-left: 20px;
-            margin-top: 10px;
+        .login-screen h2 {
+            font-size: 24px;
             color: #333;
-            line-height: 1.8;
+            margin-bottom: 30px;
         }
 
-        .instructions li {
-            margin-bottom: 10px;
+        .login-form {
+            width: 100%;
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .error-message {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            color: #b71c1c;
+            text-align: left;
+            display: none;
         }
 
         /* Шапка */
@@ -141,6 +165,22 @@
             content: "👤";
         }
 
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #d32f2f;
+        }
+
         /* Карта ресторана */
         .map-container {
             position: relative;
@@ -157,7 +197,6 @@
             justify-content: center;
         }
 
-        /* Убрали фоновую карту - заменили на чистый фон с зонами */
         .map-background {
             width: 100%;
             height: 100%;
@@ -165,7 +204,6 @@
             position: relative;
         }
 
-        /* Кликабельные зоны на карте */
         .zone-overlay {
             position: absolute;
             top: 0;
@@ -327,41 +365,6 @@
             background: #f0f0f0;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #333;
-            font-size: 15px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #e0e6ed;
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: inherit;
-            background: #f8fafc;
-            transition: all 0.2s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-        }
-
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-        }
-
         .priority-group {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -450,39 +453,39 @@
     </style>
 </head>
 <body>
-    <!-- Экран аутентификации -->
-    <div id="auth-screen" class="auth-screen">
-        <div class="auth-icon">🗺️</div>
-        <h2>Проверка...</h2>
-        <p>Ожидаем данные от Telegram...</p>
+    <!-- Экран входа -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-icon">🔐</div>
+        <h2>Вход в систему</h2>
         
-        <div class="debug-info" id="debug-info">
-            <strong>Отладочная информация:</strong><br>
-            window.Telegram: <span id="dbg-telegram">проверка...</span><br>
-            window.Telegram.WebApp: <span id="dbg-webapp">проверка...</span><br>
-            initDataUnsafe: <span id="dbg-initdata">проверка...</span>
+        <div class="login-form">
+            <div class="error-message" id="error-message"></div>
+            
+            <div class="form-group">
+                <label for="login">Логин:</label>
+                <input type="text" id="login" class="form-control" placeholder="Введите логин" autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" class="form-control" placeholder="Введите пароль" autocomplete="current-password">
+            </div>
+            
+            <button class="btn-login" onclick="login()">Войти</button>
         </div>
         
-        <div class="instructions" style="display: none;" id="instructions">
-            <strong>📋 Как открыть карту:</strong>
-            <ol>
-                <li>Откройте бота в Telegram</li>
-                <li>Нажмите кнопку <strong>"🗺️ Карта ресторана"</strong></li>
-                <li>Карта откроется прямо в чате</li>
-            </ol>
-        </div>
-        
-        <div style="color: #667eea; font-size: 14px; margin-top: 20px;" id="error-message" style="display: none;">
-            ⚠️ Этот сайт работает только через Telegram WebApp
+        <div style="margin-top: 20px; color: #666; font-size: 13px;">
+            ⚠️ Для входа используйте логин и пароль из таблицы "Аккаунты"
         </div>
     </div>
 
-    <!-- Основной интерфейс (скрыт до аутентификации) -->
+    <!-- Основной интерфейс (скрыт до входа) -->
     <div id="main-interface" style="display: none; width: 100%;">
         <div class="header">
             <h1>Карта ресторана</h1>
             <div class="user-info">
                 <span id="user-name">Загрузка...</span>
+                <button class="logout-btn" onclick="logout()">Выйти</button>
             </div>
         </div>
 
@@ -604,97 +607,65 @@
         // ============================================
         // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
         // ============================================
-        let telegramData = null;
+        let currentUser = null;
         let currentZone = null;
         let currentPriority = 'high';
         let isModalOpen = false;
-        let isAuthenticated = false;
 
         // ============================================
-        // ИНИЦИАЛИЗАЦИЯ
+        // АВТОРИЗАЦИЯ
         // ============================================
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('📄 Страница загружена');
+        async function login() {
+            const login = document.getElementById('login').value.trim();
+            const password = document.getElementById('password').value.trim();
             
-            // Ждём немного, чтобы Telegram WebApp успел инициализироваться
-            setTimeout(initTelegramWebApp, 500);
-        });
-
-        // ============================================
-        // TELEGRAM WEBAPP - АУТЕНТИФИКАЦИЯ
-        // ============================================
-        function initTelegramWebApp() {
-            console.log('🔍 Проверяем Telegram WebApp...');
-            console.log('window.Telegram:', window.Telegram);
-            console.log('window.Telegram.WebApp:', window.Telegram?.WebApp);
+            if (!login || !password) {
+                showError('Введите логин и пароль');
+                return;
+            }
             
-            // Обновляем отладочную информацию
-            document.getElementById('dbg-telegram').textContent = window.Telegram ? '✅ ДА' : '❌ НЕТ';
-            document.getElementById('dbg-webapp').textContent = window.Telegram?.WebApp ? '✅ ДА' : '❌ НЕТ';
+            // Отправляем запрос на сервер для проверки логина/пароля
+            // Пока просто проверяем локально (в реальной версии будет запрос к боту)
+            const mockAccounts = [
+                {login: 'admin', password: 'admin123', name: 'Администратор', role: 'manager'},
+                {login: 'bartender1', password: 'bartender1', name: 'Иван Петров', role: 'bartender'},
+                {login: 'cook1', password: 'cook1', name: 'Алексей Козлов', role: 'cook'}
+            ];
             
-            if (window.Telegram && window.Telegram.WebApp) {
-                const WebApp = window.Telegram.WebApp;
+            const account = mockAccounts.find(acc => 
+                acc.login === login && acc.password === password
+            );
+            
+            if (account) {
+                currentUser = account;
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-interface').style.display = 'block';
+                document.getElementById('user-name').textContent = account.name;
                 
-                // Инициализируем WebApp
-                try {
-                    WebApp.ready();
-                    WebApp.expand();
-                    
-                    console.log('✅ WebApp.ready() и WebApp.expand() вызваны');
-                    
-                    // Получаем данные пользователя
-                    const initDataUnsafe = WebApp.initDataUnsafe;
-                    console.log('initDataUnsafe:', initDataUnsafe);
-                    document.getElementById('dbg-initdata').textContent = JSON.stringify(initDataUnsafe || {}, null, 2);
-                    
-                    telegramData = {
-                        user_id: initDataUnsafe?.user?.id,
-                        username: initDataUnsafe?.user?.username || '',
-                        first_name: initDataUnsafe?.user?.first_name || 'Добро',
-                        last_name: initDataUnsafe?.user?.last_name || 'пожаловать',
-                        role: 'manager',
-                        is_from_webapp: true,
-                        raw_data: initDataUnsafe
-                    };
-                    
-                    console.log('✅ Telegram WebApp инициализирован:', telegramData);
-                    
-                    // Показываем основной интерфейс
-                    showMainInterface();
-                } catch (error) {
-                    console.error('❌ Ошибка инициализации WebApp:', error);
-                    showError('Ошибка инициализации Telegram WebApp');
-                }
+                // Инициализируем остальные функции
+                initPriorityButtons();
+                initZoneButtons();
+                loadTasks();
             } else {
-                console.log('⚠️ Telegram WebApp не обнаружен');
-                document.getElementById('dbg-initdata').textContent = '❌ НЕТ';
-                // Показываем инструкцию
-                showError('Сайт открыт не через Telegram');
+                showError('Неверный логин или пароль');
             }
         }
 
         function showError(message) {
-            document.querySelector('.auth-screen h2').textContent = '⚠️ Ошибка';
-            document.querySelector('.auth-screen p').textContent = message;
-            document.getElementById('instructions').style.display = 'block';
-            document.getElementById('error-message').style.display = 'block';
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
         }
 
-        // Показать основной интерфейс
-        function showMainInterface() {
-            if (telegramData) {
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('main-interface').style.display = 'block';
-                document.getElementById('user-name').textContent = telegramData.first_name;
-                isAuthenticated = true;
-                
-                console.log('✅ Показываем основной интерфейс');
-                
-                // Теперь можно инициализировать остальные функции
-                initPriorityButtons();
-                initZoneButtons();
-                loadTasks();
-            }
+        function logout() {
+            currentUser = null;
+            document.getElementById('main-interface').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('login').value = '';
+            document.getElementById('password').value = '';
         }
 
         // ============================================
@@ -722,7 +693,11 @@
                     currentZone = this.dataset.zone;
                     console.log('📍 Выбрана зона:', zoneName, '(', currentZone, ')');
                     
-                    openTaskForm(zoneName);
+                    if (currentUser.role === 'manager') {
+                        openTaskForm(zoneName);
+                    } else {
+                        alert('⚠️ У вас нет прав на создание задач');
+                    }
                 });
             });
         }
@@ -731,6 +706,7 @@
         // ЗАГРУЗКА ЗАДАЧ
         // ============================================
         function loadTasks() {
+            // Заглушка для теста
             const tasks = {
                 'zal_saima': {urgent: 1, normal: 2, completed: 0},
                 'zal_sennaya': {urgent: 0, normal: 1, completed: 0},
@@ -764,12 +740,6 @@
         // МОДАЛЬНОЕ ОКНО
         // ============================================
         function openTaskForm(zoneName) {
-            if (!isAuthenticated) {
-                alert('⚠️ Пожалуйста, войдите через бота в Телеграм');
-                return;
-            }
-            
-            console.log('✅ Открываем форму для зоны:', zoneName);
             document.getElementById('modal-zone-title').textContent = '📍 ' + zoneName;
             document.getElementById('modal').classList.add('show');
             isModalOpen = true;
@@ -818,23 +788,14 @@
                 title: title,
                 deadline: deadline,
                 priority: currentPriority,
-                sender_id: telegramData?.user_id,
-                sender_name: telegramData?.first_name,
+                sender_name: currentUser.name,
                 timestamp: new Date().toISOString()
             };
             
             console.log('📤 Отправляем задачу:', taskData);
             
-            if (window.Telegram?.WebApp) {
-                window.Telegram.WebApp.sendData(JSON.stringify(taskData));
-                setTimeout(() => {
-                    alert('✅ Задача создана!');
-                    window.Telegram.WebApp.close();
-                }, 100);
-            } else {
-                alert('✅ Задача создана! (Тестовый режим)\nДанные:\n' + JSON.stringify(taskData, null, 2));
-                closeModal();
-            }
+            alert('✅ Задача создана! (В реальной версии данные отправятся в бот)');
+            closeModal();
         }
     </script>
 </body>
