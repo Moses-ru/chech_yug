@@ -23,6 +23,66 @@
             align-items: center;
         }
 
+        /* Экран аутентификации */
+        .auth-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+            min-height: 100vh;
+            background: white;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-screen h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .auth-screen p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .auth-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .instructions {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            border: 1px solid #e0e6ed;
+        }
+
+        .instructions ol {
+            text-align: left;
+            margin-left: 20px;
+            margin-top: 10px;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
         /* Шапка */
         .header {
             background: white;
@@ -68,63 +128,6 @@
 
         .user-info::before {
             content: "👤";
-        }
-
-        /* Экран аутентификации */
-        .auth-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            max-width: 500px;
-            height: 100vh;
-            background: white;
-            padding: 20px;
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .auth-screen h2 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .auth-screen p {
-            color: #666;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .auth-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px 40px;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-        }
-
-        .auth-btn:active {
-            transform: translateY(0);
         }
 
         /* Карта ресторана */
@@ -439,12 +442,22 @@
 <body>
     <!-- Экран аутентификации -->
     <div id="auth-screen" class="auth-screen">
-        <h2>👋 Добро пожаловать!</h2>
-        <p>Пожалуйста, войдите через бота в Телеграм,<br>или откройте этот сайт через Telegram WebApp</p>
-        <button class="auth-btn" onclick="initTelegramAuth()">
-            <span>📱</span>
-            <span>Открыть в Телеграм</span>
-        </button>
+        <div class="auth-icon">🗺️</div>
+        <h2>Карта ресторана</h2>
+        <p>Для использования карты откройте её через бота в Telegram</p>
+        
+        <div class="instructions">
+            <strong>📋 Как открыть карту:</strong>
+            <ol>
+                <li>Откройте бота в Telegram</li>
+                <li>Нажмите кнопку <strong>"🗺️ Карта ресторана"</strong></li>
+                <li>Карта откроется прямо в чате</li>
+            </ol>
+        </div>
+        
+        <div style="color: #667eea; font-size: 14px; margin-top: 20px;">
+            ⚠️ Этот сайт работает только через Telegram WebApp
+        </div>
     </div>
 
     <!-- Основной интерфейс (скрыт до аутентификации) -->
@@ -586,7 +599,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             initTelegramWebApp();
             initPriorityButtons();
-            initZoneButtons();
             loadTasks();
         });
 
@@ -614,14 +626,10 @@
                 // Показываем основной интерфейс
                 showMainInterface();
             } else {
-                // Режим тестирования - показываем кнопку "Войти"
-                console.log('⚠️ Telegram WebApp не обнаружен. Режим тестирования.');
+                // Режим тестирования - показываем экран инструкции
+                console.log('⚠️ Telegram WebApp не обнаружен. Показываем инструкцию.');
+                // Экран уже виден по умолчанию
             }
-        }
-
-        // Кнопка "Открыть в Телеграм"
-        function initTelegramAuth() {
-            alert('ℹ️ Чтобы использовать приложение, откройте его через бота в Telegram.\n\nНажмите кнопку "Карта ресторана" в боте.');
         }
 
         // Показать основной интерфейс
@@ -631,6 +639,9 @@
                 document.getElementById('main-interface').style.display = 'block';
                 document.getElementById('user-name').textContent = telegramData.first_name;
                 isAuthenticated = true;
+                
+                // Теперь можно инициализировать остальные функции
+                initZoneButtons();
             }
         }
 
@@ -648,7 +659,7 @@
         }
 
         // ============================================
-        // КЛИКАБЕЛЬНЫЕ ЗОНЫ - ИСПРАВЛЕНО!
+        // КЛИКАБЕЛЬНЫЕ ЗОНЫ
         // ============================================
         function initZoneButtons() {
             document.querySelectorAll('.zone-button').forEach(button => {
