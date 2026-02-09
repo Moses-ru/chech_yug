@@ -87,6 +87,11 @@
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
         }
 
+        .form-control:disabled {
+            background: #f0f0f0;
+            cursor: not-allowed;
+        }
+
         .btn-login {
             width: 100%;
             padding: 16px;
@@ -105,6 +110,16 @@
         .btn-login:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-login:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-login:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .error-message {
@@ -181,61 +196,6 @@
             background: #d32f2f;
         }
 
-        /* Блоки ответственных */
-        .responsibilities-section {
-            width: 100%;
-            max-width: 500px;
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 10px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .responsibilities-section h3 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #667eea;
-        }
-
-        .responsibility-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .responsibility-item:last-child {
-            border-bottom: none;
-        }
-
-        .responsibility-label {
-            font-weight: 500;
-            color: #555;
-            font-size: 13px;
-            flex: 1;
-        }
-
-        .employee-select {
-            width: 140px;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 13px;
-            background: white;
-            cursor: pointer;
-        }
-
-        .employee-select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
         /* Карта ресторана */
         .map-container {
             position: relative;
@@ -246,7 +206,7 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            height: 65vh;
+            height: 75vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -309,15 +269,15 @@
             font-weight: 600;
             text-align: center;
             text-shadow: 0 1px 2px rgba(255,255,255,0.7);
-            padding: 6px 8px;
+            padding: 4px 8px;
             font-size: 13px;
-            line-height: 1.4;
+            line-height: 1.3;
             min-width: 60px;
             transition: all 0.2s;
-            /* Разрешаем перенос слов */
-            white-space: normal;
-            word-wrap: break-word;
-            min-height: 30px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         .zone-button:hover .zone-label {
@@ -362,7 +322,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 2000;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
@@ -418,67 +378,6 @@
         .close:hover {
             color: #333;
             background: #f0f0f0;
-        }
-
-        /* Поиск сотрудников */
-        .search-container {
-            margin-bottom: 15px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #e0e6ed;
-            border-radius: 12px;
-            font-size: 15px;
-            background: #f8fafc;
-            transition: all 0.2s;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
-        }
-
-        .employee-list {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-top: 10px;
-            border: 1px solid #e0e6ed;
-            border-radius: 12px;
-            background: #f8fafc;
-        }
-
-        .employee-item {
-            padding: 12px 16px;
-            border-bottom: 1px solid #e0e6ed;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .employee-item:hover {
-            background: #e0e6ed;
-        }
-
-        .employee-item.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .employee-item .role-badge {
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            background: rgba(0,0,0,0.1);
-        }
-
-        .employee-item.selected .role-badge {
-            background: rgba(255,255,255,0.3);
         }
 
         .priority-group {
@@ -565,16 +464,6 @@
             .priority-group {
                 grid-template-columns: 1fr;
             }
-
-            .employee-select {
-                width: 120px;
-                font-size: 12px;
-            }
-
-            .zone-label {
-                font-size: 12px;
-                padding: 4px 6px;
-            }
         }
     </style>
 </head>
@@ -615,72 +504,6 @@
             </div>
         </div>
 
-        <!-- Дополнительная нагрузка (сверху) -->
-        <div class="responsibilities-section">
-            <h3>📋 Дополнительная нагрузка:</h3>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Стейшены (протирка):</span>
-                <select class="employee-select" data-role="steshens">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Раздача кухни:</span>
-                <select class="employee-select" data-role="kitchen_delivery">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Приборы:</span>
-                <select class="employee-select" data-role="utensils">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Чайные пары:</span>
-                <select class="employee-select" data-role="tea_sets">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Раздача (подносы):</span>
-                <select class="employee-select" data-role="trays">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Комплименты:</span>
-                <select class="employee-select" data-role="compliments">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Подносы:</span>
-                <select class="employee-select" data-role="trays_clean">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Детские стулья:</span>
-                <select class="employee-select" data-role="chairs">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Флажки, купола:</span>
-                <select class="employee-select" data-role="flags">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Стафф (уборка):</span>
-                <select class="employee-select" data-role="staff_clean">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Карта ресторана -->
         <div class="map-container">
             <div class="map-background">
                 <div class="zone-overlay" id="zone-overlay">
@@ -725,65 +548,6 @@
             </div>
         </div>
 
-        <!-- Ответственные на зонах (снизу) -->
-        <div class="responsibilities-section">
-            <h3>📍 Ответственные на зонах:</h3>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Зал Сайма:</span>
-                <select class="employee-select" data-zone="zal_saima_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Зал Сенная:</span>
-                <select class="employee-select" data-zone="zal_sennaya_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Зал Волна:</span>
-                <select class="employee-select" data-zone="zal_volna_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Зал Банкет:</span>
-                <select class="employee-select" data-zone="zal_banket_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Зал Летник:</span>
-                <select class="employee-select" data-zone="zal_letnik_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Бар:</span>
-                <select class="employee-select" data-zone="bar_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Кухня:</span>
-                <select class="employee-select" data-zone="kitchen_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Склад:</span>
-                <select class="employee-select" data-zone="storage_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-            <div class="responsibility-item">
-                <span class="responsibility-label">Стафф:</span>
-                <select class="employee-select" data-zone="staff_resp">
-                    <option value="">Выбрать...</option>
-                </select>
-            </div>
-        </div>
-
         <div class="status-bar">
             <div class="status-item">
                 <div class="status-number" id="urgent-count">5</div>
@@ -805,20 +569,20 @@
     </div>
 
     <!-- Модальное окно создания задачи -->
-    <div id="modal" class="modal" style="display: none;">
+    <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" id="close-modal">&times;</span>
             <h2 id="modal-zone-title" style="margin-bottom: 20px; color: #333; font-size: 20px;">📍 Зона</h2>
             
             <div class="form-group">
                 <label>👤 Ответственный:</label>
-                <div class="search-container">
-                    <input type="text" id="employee-search" class="search-input" placeholder="Поиск сотрудника...">
-                </div>
-                <div class="employee-list" id="employee-list">
-                    <!-- Сотрудники будут загружены динамически -->
-                </div>
-                <input type="hidden" id="recipient" value="">
+                <select id="recipient" class="form-control">
+                    <option value="">Выберите сотрудника...</option>
+                    <option value="111111111">Иван Петров (Бармен)</option>
+                    <option value="222222222">Мария Сидорова (Бармен)</option>
+                    <option value="333333333">Алексей Козлов (Повар)</option>
+                    <option value="444444444">Елена Иванова (Официант)</option>
+                </select>
             </div>
             
             <div class="form-group">
@@ -862,28 +626,14 @@
         let currentZone = null;
         let currentPriority = 'high';
         let isModalOpen = false;
-        let zoneButtonsInitialized = false;
-        let selectedEmployee = null;
-
-        // Список сотрудников
-        const EMPLOYEES = [
-            {id: '111111111', name: 'Иван Петров', role: 'bartender', role_name: 'Бармен'},
-            {id: '222222222', name: 'Мария Сидорова', role: 'bartender', role_name: 'Бармен'},
-            {id: '333333333', name: 'Алексей Козлов', role: 'cook', role_name: 'Повар'},
-            {id: '444444444', name: 'Елена Иванова', role: 'waiter', role_name: 'Официант'},
-            {id: '555555555', name: 'Дмитрий Смирнов', role: 'waiter', role_name: 'Официант'},
-            {id: '666666666', name: 'Анна Козлова', role: 'bar_manager', role_name: 'Бар-менеджер'},
-            {id: '777777777', name: 'Сергей Петров', role: 'head_chef', role_name: 'Шеф-повар'},
-            {id: '888888888', name: 'Ольга Новикова', role: 'floor_manager', role_name: 'Менеджер зала'},
-            {id: '999999999', name: 'Ирина Козлова', role: 'waiter', role_name: 'Официант'},
-            {id: '101010101', name: 'Павел Соколов', role: 'cook', role_name: 'Повар'}
-        ];
 
         // ============================================
         // ИНИЦИАЛИЗАЦИЯ
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('📄 Страница загружена');
+            
+            // Инициализируем обработчики событий
             initEventListeners();
         });
 
@@ -891,15 +641,30 @@
         // ИНИЦИАЛИЗАЦИЯ ОБРАБОТЧИКОВ СОБЫТИЙ
         // ============================================
         function initEventListeners() {
+            // Кнопка входа
             document.getElementById('login-btn').addEventListener('click', login);
+            
+            // Кнопка выхода
             document.getElementById('logout-btn').addEventListener('click', logout);
+            
+            // Кнопка закрытия модального окна
             document.getElementById('close-modal').addEventListener('click', closeModal);
+            
+            // Кнопка создания задачи
             document.getElementById('create-task-btn').addEventListener('click', createTask);
+            
+            // Закрытие модального окна по клику вне
             document.getElementById('modal').addEventListener('click', function(e) {
-                if (e.target === this && isModalOpen) closeModal();
+                if (e.target === this && isModalOpen) {
+                    closeModal();
+                }
             });
+            
+            // Закрытие модального окна по клавише Escape
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && isModalOpen) closeModal();
+                if (e.key === 'Escape' && isModalOpen) {
+                    closeModal();
+                }
             });
             
             // Приоритеты
@@ -909,16 +674,6 @@
                     this.classList.add('active');
                     currentPriority = this.dataset.priority;
                 });
-            });
-            
-            // Поиск сотрудников
-            document.getElementById('employee-search').addEventListener('input', filterEmployees);
-            
-            // Выбор сотрудника
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('employee-item')) {
-                    selectEmployee(e.target.dataset.employeeId);
-                }
             });
         }
 
@@ -934,6 +689,8 @@
                 return;
             }
             
+            // Отправляем запрос на сервер для проверки логина/пароля
+            // Пока просто проверяем локально (в реальной версии будет запрос к боту)
             const mockAccounts = [
                 {login: 'admin', password: 'admin123', name: 'Администратор', role: 'manager'},
                 {login: 'bartender1', password: 'bartender1', name: 'Иван Петров', role: 'bartender'},
@@ -948,13 +705,16 @@
                 currentUser = account;
                 console.log('✅ Пользователь вошел:', account);
                 
+                // Показываем основной интерфейс
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-interface').style.display = 'block';
                 document.getElementById('user-name').textContent = account.name;
                 
+                // Инициализируем кликабельные зоны
                 initZoneButtons();
+                
+                // Загружаем задачи
                 loadTasks();
-                loadEmployeesToSelects();
             } else {
                 showError('Неверный логин или пароль');
             }
@@ -964,7 +724,9 @@
             const errorDiv = document.getElementById('error-message');
             errorDiv.textContent = message;
             errorDiv.style.display = 'block';
-            setTimeout(() => errorDiv.style.display = 'none', 3000);
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 3000);
         }
 
         function logout() {
@@ -974,31 +736,9 @@
             document.getElementById('login').value = '';
             document.getElementById('password').value = '';
             
+            // Удаляем обработчики кликов на зонах
             document.querySelectorAll('.zone-button').forEach(btn => {
                 btn.removeEventListener('click', handleZoneClick);
-            });
-            
-            closeModal();
-            zoneButtonsInitialized = false;
-        }
-
-        // ============================================
-        // ЗАГРУЗКА СОТРУДНИКОВ В СЕЛЕКТЫ
-        // ============================================
-        function loadEmployeesToSelects() {
-            document.querySelectorAll('.employee-select').forEach(select => {
-                // Очищаем старые опции (кроме первой)
-                while (select.options.length > 1) {
-                    select.remove(1);
-                }
-                
-                // Добавляем сотрудников
-                EMPLOYEES.forEach(emp => {
-                    const option = document.createElement('option');
-                    option.value = emp.id;
-                    option.textContent = emp.name;
-                    select.appendChild(option);
-                });
             });
         }
 
@@ -1006,21 +746,23 @@
         // КЛИКАБЕЛЬНЫЕ ЗОНЫ
         // ============================================
         function initZoneButtons() {
+            // Удаляем старые обработчики
             document.querySelectorAll('.zone-button').forEach(btn => {
                 btn.removeEventListener('click', handleZoneClick);
             });
             
+            // Добавляем новые обработчики
             document.querySelectorAll('.zone-button').forEach(button => {
                 button.addEventListener('click', handleZoneClick);
             });
             
-            zoneButtonsInitialized = true;
             console.log('✅ Обработчики кликов на зонах инициализированы');
         }
 
         function handleZoneClick(e) {
             e.stopPropagation();
             
+            // Проверяем авторизацию
             if (!currentUser) {
                 alert('⚠️ Пожалуйста, войдите в систему');
                 return;
@@ -1030,6 +772,7 @@
             currentZone = this.dataset.zone;
             console.log('📍 Выбрана зона:', zoneName, '(', currentZone, ')');
             
+            // Только менеджеры могут создавать задачи
             if (currentUser.role === 'manager') {
                 openTaskForm(zoneName);
             } else {
@@ -1038,54 +781,10 @@
         }
 
         // ============================================
-        // ПОИСК И ВЫБОР СОТРУДНИКОВ В МОДАЛЬНОМ ОКНЕ
-        // ============================================
-        function filterEmployees() {
-            const searchTerm = document.getElementById('employee-search').value.toLowerCase();
-            const employeeList = document.getElementById('employee-list');
-            employeeList.innerHTML = '';
-            
-            const filtered = EMPLOYEES.filter(emp => 
-                emp.name.toLowerCase().includes(searchTerm) ||
-                emp.role_name.toLowerCase().includes(searchTerm)
-            );
-            
-            if (filtered.length === 0) {
-                employeeList.innerHTML = '<div style="padding: 12px; text-align: center; color: #999;">Сотрудники не найдены</div>';
-                return;
-            }
-            
-            filtered.forEach(emp => {
-                const div = document.createElement('div');
-                div.className = 'employee-item' + (selectedEmployee === emp.id ? ' selected' : '');
-                div.dataset.employeeId = emp.id;
-                div.innerHTML = `
-                    <span>${emp.name}</span>
-                    <span class="role-badge">${emp.role_name}</span>
-                `;
-                employeeList.appendChild(div);
-            });
-        }
-
-        function selectEmployee(employeeId) {
-            selectedEmployee = employeeId;
-            document.getElementById('recipient').value = employeeId;
-            
-            // Обновляем визуальное выделение
-            document.querySelectorAll('.employee-item').forEach(item => {
-                item.classList.remove('selected');
-                if (item.dataset.employeeId === employeeId) {
-                    item.classList.add('selected');
-                }
-            });
-            
-            console.log('✅ Выбран сотрудник:', employeeId);
-        }
-
-        // ============================================
         // ЗАГРУЗКА ЗАДАЧ
         // ============================================
         function loadTasks() {
+            // Заглушка для теста
             const tasks = {
                 'zal_saima': {urgent: 1, normal: 2, completed: 0},
                 'zal_sennaya': {urgent: 0, normal: 1, completed: 0},
@@ -1101,7 +800,13 @@
         }
 
         function updateTasksUI() {
-            let totalUrgent = 5, totalNormal = 12, totalCompleted = 7;
+            let totalUrgent = 0;
+            let totalNormal = 0;
+            let totalCompleted = 0;
+            
+            totalUrgent = 5;
+            totalNormal = 12;
+            totalCompleted = 7;
             
             document.getElementById('urgent-count').textContent = totalUrgent;
             document.getElementById('normal-count').textContent = totalNormal;
@@ -1113,31 +818,19 @@
         // МОДАЛЬНОЕ ОКНО
         // ============================================
         function openTaskForm(zoneName) {
-            if (!currentUser) {
-                console.error('❌ Попытка открыть форму без авторизации');
+            // Проверяем, не открыто ли уже модальное окно
+            if (isModalOpen) {
                 return;
             }
             
-            if (isModalOpen) return;
-            
             console.log('✅ Открываем форму для зоны:', zoneName);
-            
             document.getElementById('modal-zone-title').textContent = '📍 ' + zoneName;
-            document.getElementById('employee-search').value = '';
-            document.getElementById('recipient').value = '';
-            selectedEmployee = null;
-            
-            // Загружаем список сотрудников
-            filterEmployees();
-            
-            document.getElementById('modal').style.display = 'flex';
-            setTimeout(() => document.getElementById('modal').classList.add('show'), 10);
+            document.getElementById('modal').classList.add('show');
             isModalOpen = true;
         }
 
         function closeModal() {
             document.getElementById('modal').classList.remove('show');
-            setTimeout(() => document.getElementById('modal').style.display = 'none', 300);
             isModalOpen = false;
         }
 
